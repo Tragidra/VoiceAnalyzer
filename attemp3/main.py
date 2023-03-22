@@ -4,6 +4,7 @@ import tensorflow as tf
 import librosa
 from sklearn.model_selection import train_test_split
 
+# загрузка и обработка (вариант с транспорнированием, без этого почему-то бьётся матрица)
 def load_audio(file_path):
     audio, sr = librosa.load(file_path, sr=None)
     audio = librosa.resample(audio, orig_sr=sr, target_sr=16000)
@@ -29,12 +30,15 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # простейшая модель
 model = tf.keras.models.Sequential([
-    tf.keras.layers.Dense(128, activation='relu', input_shape=(40,)),
-    tf.keras.layers.Dropout(0.5),
-    tf.keras.layers.Dense(1, activation='sigmoid')
+    tf.keras.layers.Dense(128, activation='relu', input_shape=(40,)), #первый слой, принимает 40 показателей частоты MFCC, 128 нейронов
+    tf.keras.layers.Dropout(0.5), #половину входных данных обнуляем - спойлер: от переобучения это не спасло
+    tf.keras.layers.Dense(1, activation='sigmoid') #определяем, агрессивный голос или нет
 ])
 
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+#Пока вроде как Адама хватает для оптимального варианта, градиентный спуск подходит.
+#Бинарная кросс-энтропия всё ещё единственный выход для бинарной классификации, мне это не нравится
+
 
 # всё по классике
 checkpoint_filepath = 'model_checkpoint.h5'
@@ -45,11 +49,13 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     mode='max',
     save_best_only=True)
 
-model.fit(X_train, y_train, epochs=70, batch_size=32, validation_data=(X_test, y_test), callbacks=[model_checkpoint_callback])
+model.fit(X_train, y_train, epochs=40, batch_size=32, validation_data=(X_test, y_test), callbacks=[model_checkpoint_callback]) #обучение
 
+# размер батча выше не уменьшать, не улучшило
 model.load_weights(checkpoint_filepath)
 loss, accuracy = model.evaluate(X_test, y_test)
 print(f'Потери при обучении: {loss}')
 print(f'Оценочная точность: {accuracy}')
 
-model.save('truemodel.h5')
+model.save('truemodel.h5') # я решил не сохранять отдельно метрики, оставив их в модели.
+# Все веса и смещения записаны в модели, зачем их отдельно хранить?
