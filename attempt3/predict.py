@@ -28,9 +28,9 @@ else:
 #Пути к файлам для проверки
 '''
 Первые два файла результат правильный
-C:/Users/astra/PycharmProjects/VoiceAnalyzer/attemp3/0_2023022620571669700870026942203201.wav   +
-C:/Users/astra/PycharmProjects/VoiceAnalyzer/attemp3/0_2023022620514395500870021942203201.wav   +
-C:/Users/astra/PycharmProjects/VoiceAnalyzer/attemp3/0_2023022621010693400870030042203201.wav   +
+C:/Users/astra/PycharmProjects/VoiceAnalyzer/attempt3/0_2023022620571669700870026942203201.wav   +
+C:/Users/astra/PycharmProjects/VoiceAnalyzer/attempt3/0_2023022620514395500870021942203201.wav   +
+C:/Users/astra/PycharmProjects/VoiceAnalyzer/attempt3/0_2023022621010693400870030042203201.wav   +
 0_2023022622163954300870063342203201.wav    -
 0_2023022622193574200870063942203201.wav    +
 0_2023022622195580300870064342203201.wav    -

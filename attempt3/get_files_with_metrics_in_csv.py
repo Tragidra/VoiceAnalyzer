@@ -1,7 +1,7 @@
 import os
 import csv
 
-directory = 'C:/Users/astra/PycharmProjects/VoiceAnalyzer/attemp3'
+directory = 'C:/Users/astra/PycharmProjects/VoiceAnalyzer/attempt3'
 
 with open("test.csv", mode="w") as file:
 
